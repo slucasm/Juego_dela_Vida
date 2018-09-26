@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.button_creargrid = new System.Windows.Forms.Button();
             this.button_crearenfermedad = new System.Windows.Forms.Button();
@@ -39,6 +40,7 @@
             this.textBox_filas = new System.Windows.Forms.TextBox();
             this.textBox_columnas = new System.Windows.Forms.TextBox();
             this.dataGrid_infectados = new System.Windows.Forms.DataGridView();
+            this.timer_simulacion = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid_infectados)).BeginInit();
             this.SuspendLayout();
             // 
@@ -62,9 +64,9 @@
             // 
             // button_crearenfermedad
             // 
-            this.button_crearenfermedad.Location = new System.Drawing.Point(420, 64);
+            this.button_crearenfermedad.Location = new System.Drawing.Point(359, 68);
             this.button_crearenfermedad.Name = "button_crearenfermedad";
-            this.button_crearenfermedad.Size = new System.Drawing.Size(75, 23);
+            this.button_crearenfermedad.Size = new System.Drawing.Size(136, 23);
             this.button_crearenfermedad.TabIndex = 2;
             this.button_crearenfermedad.Text = "Crear nueva enfermedad";
             this.button_crearenfermedad.UseVisualStyleBackColor = true;
@@ -72,9 +74,9 @@
             // 
             // button_ciclo
             // 
-            this.button_ciclo.Location = new System.Drawing.Point(460, 162);
+            this.button_ciclo.Location = new System.Drawing.Point(408, 168);
             this.button_ciclo.Name = "button_ciclo";
-            this.button_ciclo.Size = new System.Drawing.Size(75, 23);
+            this.button_ciclo.Size = new System.Drawing.Size(102, 23);
             this.button_ciclo.TabIndex = 3;
             this.button_ciclo.Text = "Avanzar un ciclo";
             this.button_ciclo.UseVisualStyleBackColor = true;
@@ -82,21 +84,23 @@
             // 
             // button_play
             // 
-            this.button_play.Location = new System.Drawing.Point(460, 209);
+            this.button_play.Location = new System.Drawing.Point(408, 209);
             this.button_play.Name = "button_play";
-            this.button_play.Size = new System.Drawing.Size(75, 23);
+            this.button_play.Size = new System.Drawing.Size(102, 23);
             this.button_play.TabIndex = 4;
             this.button_play.Text = "Play simulación";
             this.button_play.UseVisualStyleBackColor = true;
+            this.button_play.Click += new System.EventHandler(this.button_play_Click);
             // 
             // button_stop
             // 
-            this.button_stop.Location = new System.Drawing.Point(460, 254);
+            this.button_stop.Location = new System.Drawing.Point(408, 254);
             this.button_stop.Name = "button_stop";
-            this.button_stop.Size = new System.Drawing.Size(75, 23);
+            this.button_stop.Size = new System.Drawing.Size(102, 23);
             this.button_stop.TabIndex = 5;
             this.button_stop.Text = "Stop";
             this.button_stop.UseVisualStyleBackColor = true;
+            this.button_stop.Click += new System.EventHandler(this.button_stop_Click);
             // 
             // label_filas
             // 
@@ -132,15 +136,23 @@
             // 
             // dataGrid_infectados
             // 
+            this.dataGrid_infectados.AllowUserToAddRows = false;
+            this.dataGrid_infectados.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dataGrid_infectados.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
             this.dataGrid_infectados.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGrid_infectados.ColumnHeadersVisible = false;
             this.dataGrid_infectados.Location = new System.Drawing.Point(38, 138);
             this.dataGrid_infectados.Name = "dataGrid_infectados";
             this.dataGrid_infectados.RowHeadersVisible = false;
+            this.dataGrid_infectados.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.dataGrid_infectados.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dataGrid_infectados.Size = new System.Drawing.Size(240, 150);
+            this.dataGrid_infectados.Size = new System.Drawing.Size(353, 222);
             this.dataGrid_infectados.TabIndex = 10;
             this.dataGrid_infectados.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGrid_infectados_CellClick);
+            // 
+            // timer_simulacion
+            // 
+            this.timer_simulacion.Tick += new System.EventHandler(this.timer_simulacion_Tick);
             // 
             // Main
             // 
@@ -180,6 +192,7 @@
         private System.Windows.Forms.TextBox textBox_filas;
         private System.Windows.Forms.TextBox textBox_columnas;
         private System.Windows.Forms.DataGridView dataGrid_infectados;
+        private System.Windows.Forms.Timer timer_simulacion;
     }
 }
 

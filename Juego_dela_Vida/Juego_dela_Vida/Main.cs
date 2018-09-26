@@ -116,6 +116,44 @@ namespace Juego_dela_Vida
             }
         }
 
+        private void timer_simulacion_Tick(object sender, EventArgs e)
+        {
+            matriz = rejilla.comprobarfuturo(matriz, 4);
+            matriz = rejilla.actualizarCeldas(matriz);
+
+            int i = 0;
+
+            while (i < numberrows)
+            {
+                int j = 0;
+
+                while (j < numbercolumns)
+                {
+                    if (matriz[i, j].comprobarcelda() == 1)
+                    {
+                        dataGrid_infectados.Rows[j].Cells[i].Style.BackColor = Color.Green;
+                    }
+                    else
+                    {
+                        dataGrid_infectados.Rows[j].Cells[i].Style.BackColor = Color.White;
+                    }
+                    j++;
+                }
+                i++;
+            }
+        }
+
+        private void button_play_Click(object sender, EventArgs e)
+        {
+            timer_simulacion.Interval = 1000;
+            timer_simulacion.Start();
+        }
+
+        private void button_stop_Click(object sender, EventArgs e)
+        {
+            timer_simulacion.Stop();
+        }
+
 
     }
 }

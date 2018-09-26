@@ -91,55 +91,45 @@ namespace Juego_dela_Vida
 
         private void button_ciclo_Click(object sender, EventArgs e)
         {
-            matriz = rejilla.comprobarfuturo(matriz, 2);
+            matriz = rejilla.comprobarfuturo(matriz, 4);
             matriz = rejilla.actualizarCeldas(matriz);
 
-            int i = 0;
-
-            while (i < numberrows)
+            for (int i = 0; i < numberrows; i++)
             {
-                int j = 0;
-
-                while (j < numbercolumns)
+                for (int j = 0; j < numbercolumns; j++ )
                 {
+                    //MessageBox.Show(System.Convert.ToString(matriz[i, j].comprobarcelda()));
                     if (matriz[i, j].comprobarcelda() == 1)
                     {
-                        dataGrid_infectados.Rows[j].Cells[i].Style.BackColor = Color.Green;
+                        dataGrid_infectados.Rows[i].Cells[j].Style.BackColor = Color.Green;
                     }
                     else
                     {
-                        dataGrid_infectados.Rows[j].Cells[i].Style.BackColor = Color.White;
+                        dataGrid_infectados.Rows[i].Cells[j].Style.BackColor = Color.White;
                     }
-                    j++;
                 }
-                i++;
             }
         }
 
         private void timer_simulacion_Tick(object sender, EventArgs e)
         {
-            matriz = rejilla.comprobarfuturo(matriz, 4);
+            matriz = rejilla.comprobarfuturo(matriz,4);
             matriz = rejilla.actualizarCeldas(matriz);
 
-            int i = 0;
-
-            while (i < numberrows)
+            for (int i = 0; i < numberrows; i++ )
             {
-                int j = 0;
-
-                while (j < numbercolumns)
+                for (int j = 0; j < numbercolumns; j++)
                 {
+                    //MessageBox.Show(System.Convert.ToString(matriz[i, j].comprobarcelda()));
                     if (matriz[i, j].comprobarcelda() == 1)
                     {
-                        dataGrid_infectados.Rows[j].Cells[i].Style.BackColor = Color.Green;
+                        dataGrid_infectados.Rows[i].Cells[j].Style.BackColor = Color.Green;
                     }
                     else
                     {
-                        dataGrid_infectados.Rows[j].Cells[i].Style.BackColor = Color.White;
+                        dataGrid_infectados.Rows[i].Cells[j].Style.BackColor = Color.White;
                     }
-                    j++;
                 }
-                i++;
             }
         }
 
@@ -154,6 +144,41 @@ namespace Juego_dela_Vida
             timer_simulacion.Stop();
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Console.WriteLine("HOLA");
+            Console.ReadKey();
+            //rejilla.rejillactual(matriz);
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            matriz = rejilla.comprobarfuturo(matriz, 4);
+            matriz = rejilla.actualizarCeldas(matriz);
+            SaveFileDialog ofd = new SaveFileDialog();
+            ofd.ShowDialog();
+            ofd.DefaultExt = "txt";
+            ofd.Filter = "Archivo de texto(.txt)|*.txt";
+            ofd.Title = "Guarda los datos";
+            string nombre = ofd.FileName;
+            rejilla.guardarrejilla(nombre, matriz);
+            MessageBox.Show("Data succesfully stored");
+
+            //rejilla.rejillactual(matriz);
+        }
+
+        private void button_guardar_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog ofd = new SaveFileDialog();
+            ofd.ShowDialog();
+            ofd.DefaultExt = "txt";
+            ofd.Filter = "Archivo de texto(.txt)|*.txt";
+            ofd.Title = "Guarda los datos";
+            string nombre = ofd.FileName;
+            rejilla.guardarrejilla(nombre, matriz);
+            MessageBox.Show("Data succesfully stored");
+        }
+        
 
     }
 }

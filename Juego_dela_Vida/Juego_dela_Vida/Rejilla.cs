@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using System.Windows.Forms;
+using System.IO;
 
 namespace Juego_dela_Vida
 {
@@ -169,6 +171,7 @@ namespace Juego_dela_Vida
                     }
                     else
                     {
+                        matriz[i, j].desinfectaractual();
                         matriz[i, j].desinfectarfuturo();
                     }
                     j++;
@@ -176,6 +179,37 @@ namespace Juego_dela_Vida
                 i++;
             }
             return matriz;
+        }
+
+        public void rejillactual(Celda[,] matriz)
+        {
+            int rowLength = matriz.GetLength(0);
+            int colLength = matriz.GetLength(1);
+
+            for (int i = 0; i < rowLength; i++)
+            {
+                for (int j = 0; j < colLength; j++)
+                {
+                    MessageBox.Show(System.Convert.ToString(matriz[i, j].comprobarcelda()));
+                }
+                //Console.Write(Environment.NewLine + Environment.NewLine);
+            }
+            //Console.ReadLine();
+        }
+
+        public void guardarrejilla(string archivo, Celda[,] matriz)
+        {
+            StreamWriter fichero = new StreamWriter(archivo);
+
+            for (int i = 0; i < numberrows; i++)
+            {
+                for (int j = 0; j < numbercolumns; j++)
+                {
+                    fichero.Write(matriz[i, j].comprobarcelda());
+                }
+                fichero.Write("\r\n");
+            }
+            fichero.Close();
         }
     }
 }

@@ -37,7 +37,10 @@ namespace Juego_dela_Vida
         {
             this.infectado = 1;
         }
-
+        public void desinfectaractual()
+        {
+            this.infectado = 0;
+        }
         public int comprobarfuturo()
         {
             return this.infectadofuturo;

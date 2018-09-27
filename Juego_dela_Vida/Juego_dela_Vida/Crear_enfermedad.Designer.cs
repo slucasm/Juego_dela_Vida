@@ -43,6 +43,7 @@
             this.button_crearenfermedad.TabIndex = 0;
             this.button_crearenfermedad.Text = "Crear enfermedad";
             this.button_crearenfermedad.UseVisualStyleBackColor = true;
+            this.button_crearenfermedad.Click += new System.EventHandler(this.button_crearenfermedad_Click);
             // 
             // textBox_nombre
             // 
@@ -88,6 +89,7 @@
             this.Controls.Add(this.button_crearenfermedad);
             this.Name = "Crear_enfermedad";
             this.Text = "Crear_enfermedad";
+            this.Load += new System.EventHandler(this.Crear_enfermedad_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

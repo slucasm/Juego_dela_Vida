@@ -45,5 +45,10 @@ namespace Juego_dela_Vida
         {
             return this.infectadofuturo;
         }
+
+        public void estado(int i)
+        {
+            this.infectado = i;
+        }
     }
 }

@@ -10,7 +10,7 @@ namespace Juego_dela_Vida
         int numerovecinosinfectados;
         string nombre;
 
-        public Enfermedad(string nombre, int numero)
+        public void creoenfermedad(string nombre, int numero)
         {
             this.nombre = nombre;
             this.numerovecinosinfectados = numero;

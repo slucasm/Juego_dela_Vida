@@ -41,8 +41,6 @@
             this.textBox_columnas = new System.Windows.Forms.TextBox();
             this.dataGrid_infectados = new System.Windows.Forms.DataGridView();
             this.timer_simulacion = new System.Windows.Forms.Timer(this.components);
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
             this.button_guardar = new System.Windows.Forms.Button();
             this.button_abrir = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid_infectados)).BeginInit();
@@ -55,6 +53,7 @@
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(121, 21);
             this.comboBox1.TabIndex = 0;
+            this.comboBox1.DropDown += new System.EventHandler(this.comboBox1_DropDown);
             // 
             // button_creargrid
             // 
@@ -158,29 +157,9 @@
             // 
             this.timer_simulacion.Tick += new System.EventHandler(this.timer_simulacion_Tick);
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(420, 283);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 11;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(420, 312);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 12;
-            this.button2.Text = "button2";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
             // button_guardar
             // 
-            this.button_guardar.Location = new System.Drawing.Point(420, 341);
+            this.button_guardar.Location = new System.Drawing.Point(420, 292);
             this.button_guardar.Name = "button_guardar";
             this.button_guardar.Size = new System.Drawing.Size(75, 23);
             this.button_guardar.TabIndex = 13;
@@ -190,12 +169,13 @@
             // 
             // button_abrir
             // 
-            this.button_abrir.Location = new System.Drawing.Point(420, 371);
+            this.button_abrir.Location = new System.Drawing.Point(420, 337);
             this.button_abrir.Name = "button_abrir";
             this.button_abrir.Size = new System.Drawing.Size(75, 23);
             this.button_abrir.TabIndex = 14;
             this.button_abrir.Text = "Abrir archivo";
             this.button_abrir.UseVisualStyleBackColor = true;
+            this.button_abrir.Click += new System.EventHandler(this.button_abrir_Click);
             // 
             // Main
             // 
@@ -204,8 +184,6 @@
             this.ClientSize = new System.Drawing.Size(534, 389);
             this.Controls.Add(this.button_abrir);
             this.Controls.Add(this.button_guardar);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
             this.Controls.Add(this.dataGrid_infectados);
             this.Controls.Add(this.textBox_columnas);
             this.Controls.Add(this.textBox_filas);
@@ -240,8 +218,6 @@
         private System.Windows.Forms.TextBox textBox_columnas;
         private System.Windows.Forms.DataGridView dataGrid_infectados;
         private System.Windows.Forms.Timer timer_simulacion;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button_guardar;
         private System.Windows.Forms.Button button_abrir;
     }

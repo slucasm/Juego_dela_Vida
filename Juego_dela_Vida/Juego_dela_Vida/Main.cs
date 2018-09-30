@@ -27,14 +27,23 @@ namespace Juego_dela_Vida
 
         public string nombrenuevaenfermedad;
         public int reglanuevaenfermedad;
-        public int contadorenfermedades = 0;
+        public int contadorenfermedades;
 
         string[] nombreenfermedades = new string[5];
         int[] reglasenfermedades = new int[5];
-        
+
 
         private void Main_Load(object sender, EventArgs e)
         {
+            this.nombreenfermedades = new string[5];
+            this.reglasenfermedades = new int[5];
+            for (int i = 0; i <= nombreenfermedades.Length; i++)
+            {
+                Array.Clear(nombreenfermedades, 0, nombreenfermedades.Length);
+                Array.Clear(reglasenfermedades, 0, reglasenfermedades.Length);
+            }
+
+            this.contadorenfermedades = 1;
             DataTable tabla = new DataTable();
             this.tabla = tabla;
             dataGrid_infectados.DefaultCellStyle.SelectionBackColor = Color.Transparent;
@@ -101,14 +110,14 @@ namespace Juego_dela_Vida
         private void button_ciclo_Click(object sender, EventArgs e)
         {
             int indicecombobox = comboBox1.SelectedIndex;
-            matriz = rejilla.comprobarfuturo(matriz, reglasenfermedades[indicecombobox]);
-            matriz = rejilla.actualizarCeldas(matriz);
+            this.matriz = rejilla.comprobarfuturo(this.matriz, reglasenfermedades[indicecombobox]);
+            this.matriz = rejilla.actualizarCeldas(matriz);
 
             for (int i = 0; i < numberrows; i++)
             {
                 for (int j = 0; j < numbercolumns; j++ )
                 {
-                    if (matriz[i, j].comprobarcelda() == 1)
+                    if (this.matriz[i, j].comprobarcelda() == 1)
                     {
                         dataGrid_infectados.Rows[i].Cells[j].Style.BackColor = Color.Green;
                     }
@@ -158,16 +167,19 @@ namespace Juego_dela_Vida
             SaveFileDialog ofd = new SaveFileDialog();
             ofd.ShowDialog();
             ofd.DefaultExt = "txt";
-            ofd.Filter = "Archivo de texto(.txt)|*.txt";
+            ofd.Filter = "Archivos txt(*.txt)|*.txt";
             ofd.Title = "Guarda los datos";
             string nombre = ofd.FileName;
-            rejilla.guardarrejilla(nombre, matriz, numbercolumns, numberrows, nombreenfermedades[comboBox1.SelectedIndex], reglasenfermedades[comboBox1.SelectedIndex]);
+            Fichero n = new Fichero(nombre);
+            n.guardarrejilla(nombre, matriz, numbercolumns, numberrows, nombreenfermedades[comboBox1.SelectedIndex], reglasenfermedades[comboBox1.SelectedIndex]);
+          
+            //rejilla.guardarrejilla(nombre, matriz, numbercolumns, numberrows, nombreenfermedades[comboBox1.SelectedIndex], reglasenfermedades[comboBox1.SelectedIndex]);
             MessageBox.Show("Data succesfully stored");
         }
         private void comboBox1_DropDown(object sender, EventArgs e)
         {
             //MessageBox.Show(nombrenuevaenfermedad);
-            for (int x = 1; x <= contadorenfermedades; x++)
+            for (int x = 1; x < contadorenfermedades; x++)
             {
                 Enfermedad nuevaenf = new Enfermedad();
                 nuevaenf.creoenfermedad(nombrenuevaenfermedad, reglanuevaenfermedad);
@@ -179,19 +191,57 @@ namespace Juego_dela_Vida
 
         private void button_abrir_Click(object sender, EventArgs e)
         {
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.ShowDialog();
-            string nombre = ofd.SafeFileName;
-            //matriz = rejilla.abrircelda(nombre);
-            textBox_columnas.Text = Convert.ToString(rejilla.abrircolumna(nombre));
-            textBox_filas.Text = Convert.ToString(rejilla.abrirfilas(nombre));
-            if (string.Compare(rejilla.abrirnombre(nombre),"VIH")==1)
+            try
             {
+                OpenFileDialog ofd = new OpenFileDialog();
+                ofd.Filter = "Archivos txt(*.txt)|*.txt";
+                ofd.ShowDialog();
+                string nombre = ofd.FileName;
+
+                Fichero n = new Fichero(nombre);
+                matriz = n.abrirfichero(nombre);
+                this.matriz = matriz;
+                textBox_columnas.Text = Convert.ToString(n.abrircolumnas(nombre));
+                textBox_filas.Text = Convert.ToString(n.abrirfilas(nombre));
+                if (string.Compare(n.abrirnombre(nombre), "VIH") == 1)
+                {
+
+                }
+                else
+                {
+                    nombreenfermedades[contadorenfermedades] = n.abrirnombre(nombre);
+                    reglasenfermedades[contadorenfermedades] = n.abrirregla(nombre);
+                    //nombreenfermedades[nombreenfermedades.Length-1] = n.abrirnombre(nombre);
+                    //reglasenfermedades[reglasenfermedades.Length-1] = n.abrirregla(nombre);
+                    comboBox1.Items.Add(n.abrirnombre(nombre));
+                    comboBox1.SelectedIndex = comboBox1.Items.Count-1;
+
+                }
+                Rejilla r = new Rejilla();
+                this.rejilla = r;
+                tabla = r.creardatagrid(n.abrirfilas(nombre), n.abrircolumnas(nombre)); ;
+                this.tabla = tabla;
+                dataGrid_infectados.DataSource = tabla;
+                this.numberrows = n.abrirfilas(nombre);
+                this.numbercolumns = n.abrircolumnas(nombre);
+                for (int i = 0; i < numberrows; i++)
+                {
+                    for (int j = 0; j < numbercolumns; j++)
+                    {
+                        if (matriz[i, j].comprobarcelda() == 1)
+                        {
+                            dataGrid_infectados.Rows[i].Cells[j].Style.BackColor = Color.Green;
+                        }
+                        else
+                        {
+                            dataGrid_infectados.Rows[i].Cells[j].Style.BackColor = Color.White;
+                        }
+                    }
+                }
             }
-            else
+            catch (Exception u)
             {
-                nombreenfermedades[1] = rejilla.abrirnombre(nombre);
-                reglasenfermedades[1] = rejilla.abrirregla(nombre);
+                MessageBox.Show(u.Message);
             }
             //(matriz,label_columnas,label_filas,nombrenuevaenfermedad,reglanuevaenfermedad)=rejilla.abrirarchivo(nombre);
         }

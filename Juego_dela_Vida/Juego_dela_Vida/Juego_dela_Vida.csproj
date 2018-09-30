@@ -54,6 +54,7 @@
       <DependentUpon>Crear_enfermedad.cs</DependentUpon>
     </Compile>
     <Compile Include="Enfermedad.cs" />
+    <Compile Include="Fichero.cs" />
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -38,7 +38,8 @@ namespace Juego_dela_Vida
         public Celda[,] comprobarfuturo(Celda[,] matriz, int regla_numalrededor)
         {
             int fila = 0;
-
+            numberrows = matriz.GetLength(0);
+            numbercolumns = matriz.GetLength(1);
             while (fila < numberrows)
             {
                 int columna = 0;
@@ -246,9 +247,11 @@ namespace Juego_dela_Vida
 
         public Celda[,] abrircelda(string archivo)
         {
+            
             StreamReader fichero = new StreamReader(archivo);
             int columna = Convert.ToInt32(fichero.ReadLine());
             int fila = Convert.ToInt32(fichero.ReadLine());
+            //Celda[,] matriz = new Celda[fila, columna];
             string nombreenfermedad = fichero.ReadLine();
             int regla = Convert.ToInt32(fichero.ReadLine());
 
@@ -258,11 +261,12 @@ namespace Juego_dela_Vida
                 {
                     string linea = Convert.ToString(fichero.ReadLine());
                     string[] trozos = linea.Split();
-                    this.matriz[i, j].estado(Convert.ToInt32(trozos[j]));
+                    matriz[i, j].estado(Convert.ToInt32(trozos[j]));
 
                 }
 
             }
+            fichero.Close();
             return matriz;
         }
         public int abrirfilas(string archivo)

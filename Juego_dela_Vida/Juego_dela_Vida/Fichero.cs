@@ -57,24 +57,18 @@ namespace Juego_dela_Vida
                 string[] trozos = linea.Split();
                 for (int j = 0; j < columna; j++)
                 {
-                    
-                    //matriz[i, j].estado(Convert.ToInt32(trozos[j]));
                     matriz[i, j] = new Celda(j, i, Convert.ToInt32(trozos[j]));
-
                 }
-
             }
             fichero.Close();
             return matriz;
         }
-
 
         public int abrirfilas(string archivo)
         {
             StreamReader fichero = new StreamReader(archivo);
             int columna = Convert.ToInt32(fichero.ReadLine());
             int fila = Convert.ToInt32(fichero.ReadLine());
-            
             return fila;
         }
         public int abrircolumnas(string archivo)

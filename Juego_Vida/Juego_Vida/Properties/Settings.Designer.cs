@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Juego_dela_Vida.Properties
+namespace Juego_Vida.Properties
 {
 
 

@@ -6,8 +6,9 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using LibreriaClases;
 
-namespace Juego_dela_Vida
+namespace Juego_Vida
 {
     public partial class Crear_enfermedad : Form
     {
@@ -27,16 +28,21 @@ namespace Juego_dela_Vida
 
         private void Crear_enfermedad_Load(object sender, EventArgs e)
         {
-            
+
         }
 
         private void button_crearenfermedad_Click(object sender, EventArgs e)
         {
             try
             {
-                originalForm.nombrenuevaenfermedad = textBox_nombre.Text;
-                originalForm.reglanuevaenfermedad = Convert.ToInt32(textBox_numinfectadosalrededor.Text);
-                originalForm.contadorenfermedades++;
+                
+
+                string nombre = (textBox_nombre.Text);
+                int reglaya = (Convert.ToInt32(textBox_yainfect_regla.Text));
+                int reglano = (Convert.ToInt32(textBox_noinfect_regla.Text));
+                Enfermedad nuevaenfermedad = new Enfermedad(nombre,reglaya,reglano);
+                originalForm.listaenfermedades.Add(nuevaenfermedad);
+                //originalForm.rejilla.setEnfermedadceldas(originalForm.matriz, nuevaenfermedad);
                 this.Close();
             }
             catch (Exception u)

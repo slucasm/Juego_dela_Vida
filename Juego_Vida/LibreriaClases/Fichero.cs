@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.IO;
 
-namespace Juego_dela_Vida
+namespace LibreriaClases
 {
-    class Fichero
+    public class Fichero
     {
-        Celda[,] matriz;
+
+        //Celda[,] matriz;
         string nombrearchivo;
 
         public Fichero(string nombrearchivo)
@@ -19,7 +20,7 @@ namespace Juego_dela_Vida
         public void guardarrejilla(string archivo, Celda[,] matriz, int columnas, int filas, string nombreenfermedad, int reglaenfermedad)
         {
             int numberrows = matriz.GetLength(0);
-            int numbercolumns =matriz.GetLength(1);
+            int numbercolumns = matriz.GetLength(1);
             StreamWriter fichero = new StreamWriter(archivo);
             fichero.Write(columnas);
             fichero.Write("\r\n");
@@ -42,9 +43,11 @@ namespace Juego_dela_Vida
         }
         public Celda[,] abrirfichero(string nombrearchivo)
         {
-           
-            
             StreamReader fichero = new StreamReader(nombrearchivo);
+            Enfermedad e = new Enfermedad();
+            e.setnombre(fichero.ReadLine());
+            e.setreglayainfect(Convert.ToInt32(fichero.ReadLine()));
+            e.setreglanoinfect(Convert.ToInt32(fichero.ReadLine()));
             int columna = Convert.ToInt32(fichero.ReadLine());
             int fila = Convert.ToInt32(fichero.ReadLine());
             Celda[,] matriz = new Celda[fila, columna];
@@ -57,7 +60,7 @@ namespace Juego_dela_Vida
                 string[] trozos = linea.Split();
                 for (int j = 0; j < columna; j++)
                 {
-                    matriz[i, j] = new Celda(j, i, Convert.ToInt32(trozos[j]));
+                    matriz[i, j] = new Celda(Convert.ToInt32(trozos[j]), e);
                 }
             }
             fichero.Close();
@@ -94,6 +97,7 @@ namespace Juego_dela_Vida
             int regla = Convert.ToInt32(fichero.ReadLine());
             return regla;
         }
+
 
     }
 }

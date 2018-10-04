@@ -1,0 +1,25 @@
+Separar classes de forms.
+
+Añadir grafica.
+
+más condiciones infecccion desinfeccion.
+
+Que la celda haga todo lo que pueda ella
+
+La malla tendra que calcular cuantas vecinas tiene, dependiendo de esto evoluciona. (Tambien debe conocer las reglas)
+
+
+
+
+
+
+En la Classe lista: En sus atributos { Estado{ actual y futuro}, Reglas }
+- No se cambian las reglas a mitad,parametros no cambian durante la simulación
+
+
+
+
+
+
+
+Celda inteligente con los datos que nos da la malla

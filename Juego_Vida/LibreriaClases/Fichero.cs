@@ -9,7 +9,6 @@ namespace LibreriaClases
     public class Fichero
     {
 
-        //Celda[,] matriz;
         string nombrearchivo;
 
         public Fichero(string nombrearchivo)
@@ -17,19 +16,23 @@ namespace LibreriaClases
             this.nombrearchivo = nombrearchivo;
         }
 
-        public void guardarrejilla(string archivo, Celda[,] matriz, int columnas, int filas, string nombreenfermedad, int reglaenfermedad)
+
+        public void guardar(Celda[,] matriz,Enfermedad enfermedad)
         {
             int numberrows = matriz.GetLength(0);
             int numbercolumns = matriz.GetLength(1);
-            StreamWriter fichero = new StreamWriter(archivo);
-            fichero.Write(columnas);
+            StreamWriter fichero = new StreamWriter(this.nombrearchivo);
+            fichero.Write(enfermedad.getnombrenfermedad());
             fichero.Write("\r\n");
-            fichero.Write(filas);
+            fichero.Write(enfermedad.getreglayainfect());
             fichero.Write("\r\n");
-            fichero.Write(nombreenfermedad);
+            fichero.Write(enfermedad.getreglanoinfect());
             fichero.Write("\r\n");
-            fichero.Write(reglaenfermedad);
+            fichero.Write(numbercolumns);
             fichero.Write("\r\n");
+            fichero.Write(numberrows);
+            fichero.Write("\r\n");
+            
             for (int i = 0; i < numberrows; i++)
             {
                 for (int j = 0; j < numbercolumns; j++)
@@ -41,9 +44,10 @@ namespace LibreriaClases
             }
             fichero.Close();
         }
-        public Celda[,] abrirfichero(string nombrearchivo)
+
+        public Tuple<Celda[,],int, int, Enfermedad> abrir()
         {
-            StreamReader fichero = new StreamReader(nombrearchivo);
+            StreamReader fichero = new StreamReader(this.nombrearchivo);
             Enfermedad e = new Enfermedad();
             e.setnombre(fichero.ReadLine());
             e.setreglayainfect(Convert.ToInt32(fichero.ReadLine()));
@@ -51,8 +55,6 @@ namespace LibreriaClases
             int columna = Convert.ToInt32(fichero.ReadLine());
             int fila = Convert.ToInt32(fichero.ReadLine());
             Celda[,] matriz = new Celda[fila, columna];
-            string nombreenfermedad = fichero.ReadLine();
-            int regla = Convert.ToInt32(fichero.ReadLine());
 
             for (int i = 0; i < fila; i++)
             {
@@ -64,40 +66,7 @@ namespace LibreriaClases
                 }
             }
             fichero.Close();
-            return matriz;
+            return Tuple.Create(matriz,fila,columna,e);
         }
-
-        public int abrirfilas(string archivo)
-        {
-            StreamReader fichero = new StreamReader(archivo);
-            int columna = Convert.ToInt32(fichero.ReadLine());
-            int fila = Convert.ToInt32(fichero.ReadLine());
-            return fila;
-        }
-        public int abrircolumnas(string archivo)
-        {
-            StreamReader fichero = new StreamReader(archivo);
-            int columna = Convert.ToInt32(fichero.ReadLine());
-            return columna;
-        }
-        public string abrirnombre(string archivo)
-        {
-            StreamReader fichero = new StreamReader(archivo);
-            int columna = Convert.ToInt32(fichero.ReadLine());
-            int fila = Convert.ToInt32(fichero.ReadLine());
-            string nombreenfermedad = fichero.ReadLine();
-            return nombreenfermedad;
-        }
-        public int abrirregla(string archivo)
-        {
-            StreamReader fichero = new StreamReader(archivo);
-            int columna = Convert.ToInt32(fichero.ReadLine());
-            int fila = Convert.ToInt32(fichero.ReadLine());
-            string nombreenfermedad = fichero.ReadLine();
-            int regla = Convert.ToInt32(fichero.ReadLine());
-            return regla;
-        }
-
-
     }
 }

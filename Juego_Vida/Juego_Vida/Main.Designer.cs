@@ -43,26 +43,34 @@
             this.button_creargrid = new System.Windows.Forms.Button();
             this.comboBox_enfermedades = new System.Windows.Forms.ComboBox();
             this.timer_simulacion = new System.Windows.Forms.Timer(this.components);
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label_yainfectada = new System.Windows.Forms.Label();
+            this.label_noinfectada = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid_infectados)).BeginInit();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // button_abrir
             // 
-            this.button_abrir.Location = new System.Drawing.Point(435, 328);
+            this.button_abrir.Location = new System.Drawing.Point(632, 318);
             this.button_abrir.Name = "button_abrir";
             this.button_abrir.Size = new System.Drawing.Size(75, 23);
             this.button_abrir.TabIndex = 40;
             this.button_abrir.Text = "Abrir archivo";
             this.button_abrir.UseVisualStyleBackColor = true;
+            this.button_abrir.Click += new System.EventHandler(this.button_abrir_Click);
             // 
             // button_guardar
             // 
-            this.button_guardar.Location = new System.Drawing.Point(435, 283);
+            this.button_guardar.Location = new System.Drawing.Point(632, 273);
             this.button_guardar.Name = "button_guardar";
             this.button_guardar.Size = new System.Drawing.Size(75, 23);
             this.button_guardar.TabIndex = 39;
             this.button_guardar.Text = "Guardar situación";
             this.button_guardar.UseVisualStyleBackColor = true;
+            this.button_guardar.Click += new System.EventHandler(this.button_guardar_Click);
             // 
             // dataGrid_infectados
             // 
@@ -76,7 +84,7 @@
             this.dataGrid_infectados.RowHeadersVisible = false;
             this.dataGrid_infectados.ScrollBars = System.Windows.Forms.ScrollBars.None;
             this.dataGrid_infectados.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dataGrid_infectados.Size = new System.Drawing.Size(353, 222);
+            this.dataGrid_infectados.Size = new System.Drawing.Size(467, 261);
             this.dataGrid_infectados.TabIndex = 38;
             this.dataGrid_infectados.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGrid_infectados_CellClick);
             // 
@@ -114,7 +122,7 @@
             // 
             // button_stop
             // 
-            this.button_stop.Location = new System.Drawing.Point(423, 245);
+            this.button_stop.Location = new System.Drawing.Point(620, 235);
             this.button_stop.Name = "button_stop";
             this.button_stop.Size = new System.Drawing.Size(102, 23);
             this.button_stop.TabIndex = 33;
@@ -124,7 +132,7 @@
             // 
             // button_play
             // 
-            this.button_play.Location = new System.Drawing.Point(423, 200);
+            this.button_play.Location = new System.Drawing.Point(620, 190);
             this.button_play.Name = "button_play";
             this.button_play.Size = new System.Drawing.Size(102, 23);
             this.button_play.TabIndex = 32;
@@ -134,7 +142,7 @@
             // 
             // button_ciclo
             // 
-            this.button_ciclo.Location = new System.Drawing.Point(423, 159);
+            this.button_ciclo.Location = new System.Drawing.Point(620, 149);
             this.button_ciclo.Name = "button_ciclo";
             this.button_ciclo.Size = new System.Drawing.Size(102, 23);
             this.button_ciclo.TabIndex = 31;
@@ -144,7 +152,7 @@
             // 
             // button_crearenfermedad
             // 
-            this.button_crearenfermedad.Location = new System.Drawing.Point(374, 59);
+            this.button_crearenfermedad.Location = new System.Drawing.Point(6, 61);
             this.button_crearenfermedad.Name = "button_crearenfermedad";
             this.button_crearenfermedad.Size = new System.Drawing.Size(136, 23);
             this.button_crearenfermedad.TabIndex = 30;
@@ -165,21 +173,71 @@
             // comboBox_enfermedades
             // 
             this.comboBox_enfermedades.FormattingEnabled = true;
-            this.comboBox_enfermedades.Location = new System.Drawing.Point(389, 27);
+            this.comboBox_enfermedades.Location = new System.Drawing.Point(6, 30);
             this.comboBox_enfermedades.Name = "comboBox_enfermedades";
             this.comboBox_enfermedades.Size = new System.Drawing.Size(121, 21);
             this.comboBox_enfermedades.TabIndex = 28;
             this.comboBox_enfermedades.DropDown += new System.EventHandler(this.comboBox_enfermedades_DropDown);
+            this.comboBox_enfermedades.SelectedIndexChanged += new System.EventHandler(this.comboBox_enfermedades_SelectedIndexChanged);
             // 
             // timer_simulacion
             // 
             this.timer_simulacion.Tick += new System.EventHandler(this.timer_simulacion_Tick);
             // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.label_noinfectada);
+            this.groupBox1.Controls.Add(this.label_yainfectada);
+            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.button_crearenfermedad);
+            this.groupBox1.Controls.Add(this.comboBox_enfermedades);
+            this.groupBox1.Location = new System.Drawing.Point(338, 13);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(419, 110);
+            this.groupBox1.TabIndex = 41;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Enfermedad";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(158, 58);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(144, 13);
+            this.label2.TabIndex = 32;
+            this.label2.Text = "Si la celda no está infectada:";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(158, 17);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(143, 13);
+            this.label1.TabIndex = 31;
+            this.label1.Text = "Si la celda ya está infectada:";
+            // 
+            // label_yainfectada
+            // 
+            this.label_yainfectada.AutoSize = true;
+            this.label_yainfectada.Location = new System.Drawing.Point(158, 38);
+            this.label_yainfectada.Name = "label_yainfectada";
+            this.label_yainfectada.Size = new System.Drawing.Size(0, 13);
+            this.label_yainfectada.TabIndex = 33;
+            // 
+            // label_noinfectada
+            // 
+            this.label_noinfectada.AutoSize = true;
+            this.label_noinfectada.Location = new System.Drawing.Point(158, 81);
+            this.label_noinfectada.Name = "label_noinfectada";
+            this.label_noinfectada.Size = new System.Drawing.Size(0, 13);
+            this.label_noinfectada.TabIndex = 34;
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(627, 410);
+            this.ClientSize = new System.Drawing.Size(799, 410);
             this.Controls.Add(this.button_abrir);
             this.Controls.Add(this.button_guardar);
             this.Controls.Add(this.dataGrid_infectados);
@@ -190,13 +248,14 @@
             this.Controls.Add(this.button_stop);
             this.Controls.Add(this.button_play);
             this.Controls.Add(this.button_ciclo);
-            this.Controls.Add(this.button_crearenfermedad);
             this.Controls.Add(this.button_creargrid);
-            this.Controls.Add(this.comboBox_enfermedades);
+            this.Controls.Add(this.groupBox1);
             this.Name = "Main";
             this.Text = "Juego de la vida";
             this.Load += new System.EventHandler(this.Main_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGrid_infectados)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -218,6 +277,11 @@
         private System.Windows.Forms.Button button_creargrid;
         private System.Windows.Forms.ComboBox comboBox_enfermedades;
         private System.Windows.Forms.Timer timer_simulacion;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label label_noinfectada;
+        private System.Windows.Forms.Label label_yainfectada;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
     }
 }
 

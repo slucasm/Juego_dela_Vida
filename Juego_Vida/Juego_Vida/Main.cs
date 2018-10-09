@@ -6,9 +6,9 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using LibreriaClases;
 
-
-namespace Juego_dela_Vida
+namespace Juego_Vida
 {
     public partial class Main : Form
     {
@@ -17,48 +17,42 @@ namespace Juego_dela_Vida
             InitializeComponent();
         }
 
-        DataTable tabla;
-        Celda[,] matriz;
-        Rejilla rejilla;
+        DataTable tabla = new DataTable();
+        public Celda[,] matriz;
+        public Rejilla rejilla = new Rejilla();
         int numbercolumns;
         int numberrows;
 
+        public List<Enfermedad> listaenfermedades;
         public string nombrenuevaenfermedad;
-        public int reglanuevaenfermedad;
-        public int contadorenfermedades;
-
-        string[] nombreenfermedades = new string[5];
-        int[] reglasenfermedades = new int[5];
-
+        public int yainfectado_regla;
+        public int noinfectado_regla;
+        public Enfermedad enfermedad = new Enfermedad();
 
         private void Main_Load(object sender, EventArgs e)
         {
+
             try
             {
-                this.nombreenfermedades = new string[5];
-                this.reglasenfermedades = new int[5];
-                for (int i = 0; i <= nombreenfermedades.Length; i++)
-                {
-                    Array.Clear(nombreenfermedades, 0, nombreenfermedades.Length);
-                    Array.Clear(reglasenfermedades, 0, reglasenfermedades.Length);
-                }
-
-                this.contadorenfermedades = 1;
                 DataTable tabla = new DataTable();
                 this.tabla = tabla;
-                dataGrid_infectados.DefaultCellStyle.SelectionBackColor = Color.Transparent;
-                dataGrid_infectados.DefaultCellStyle.SelectionForeColor = Color.Transparent;
-                Enfermedad nueva = new Enfermedad();
-                nueva.creoenfermedad("VIH", 4);
-                nombreenfermedades[0] = Convert.ToString(nueva.damenombrenfermedad());
-                reglasenfermedades[0] = nueva.devolvernumeroinfectadosalrededor();
-                comboBox1.Items.Add(nombreenfermedades[0]);
-                comboBox1.SelectedIndex = 0;
+
+                List<Enfermedad> listaenfermedades = new List<Enfermedad>();
+                Enfermedad nueva = new Enfermedad("Dengue",4,7);
+                listaenfermedades.Add(nueva);
+                this.listaenfermedades = listaenfermedades;
+
+                comboBox_enfermedades.Items.Add(nueva.getnombrenfermedad());
+                comboBox_enfermedades.SelectedIndex = 0;
+                label_yainfectada.Text = "Celdas infectadas alrededor para seguir infectado:" +Convert.ToString(listaenfermedades[comboBox_enfermedades.SelectedIndex].getreglayainfect());
+                label_noinfectada.Text = "Celdas infectadas alrededor para seguir infectado:" +Convert.ToString(listaenfermedades[comboBox_enfermedades.SelectedIndex].getreglanoinfect());
+
             }
             catch (Exception a)
             {
                 MessageBox.Show(a.Message);
             }
+       
         }
 
         private void button_creargrid_Click(object sender, EventArgs e)
@@ -75,14 +69,12 @@ namespace Juego_dela_Vida
                 dataGrid_infectados.DataSource = tabla;
                 Celda[,] matriz = rejilla.crearmatriz(numberrows, numbercolumns);
                 this.matriz = matriz;
-                int i = 0;
 
-                while (i < numbercolumns)
+                for (int i = 0; i < numbercolumns; i++)
                 {
-                    int j = 0;
-                    while (j < numberrows)
+                    for (int j = 0; j < numberrows; j++)
                     {
-                        matriz[i, j] = new Celda(numbercolumns, numberrows, 0);
+                        matriz[i, j] = new Celda(0, enfermedad);
                         if (matriz[i, j].comprobarcelda() == 1)
                         {
                             dataGrid_infectados.Rows[j].Cells[i].Style.BackColor = Color.Green;
@@ -91,17 +83,15 @@ namespace Juego_dela_Vida
                         {
 
                         }
-                        j++;
                     }
-                    i++;
                 }
+
+
             }
             catch (Exception b)
             {
                 MessageBox.Show(b.Message);
             }
-
-
         }
 
         private void dataGrid_infectados_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -112,7 +102,7 @@ namespace Juego_dela_Vida
                 int j = e.ColumnIndex;
                 dataGrid_infectados.CurrentCell.Style.BackColor = Color.Green;
                 matriz[i, j].infectaractual();
-                int prueba = matriz[i, j].comprobarcelda();
+                dataGrid_infectados.ClearSelection();
             }
             catch (Exception c)
             {
@@ -137,10 +127,10 @@ namespace Juego_dela_Vida
         {
             try
             {
-                int indicecombobox = comboBox1.SelectedIndex;
-                this.matriz = rejilla.comprobarfuturo(this.matriz, reglasenfermedades[indicecombobox]);
-                this.matriz = rejilla.actualizarCeldas(matriz);
-
+                this.rejilla.setEnfermedadceldas(this.matriz, listaenfermedades[comboBox_enfermedades.SelectedIndex]);
+                this.matriz = rejilla.contarinfectadosalrededor(matriz);
+                this.matriz = rejilla.evolucionar(matriz);
+                this.matriz = rejilla.actualizar(matriz);
                 for (int i = 0; i < numberrows; i++)
                 {
                     for (int j = 0; j < numbercolumns; j++)
@@ -166,15 +156,15 @@ namespace Juego_dela_Vida
         {
             try
             {
-                int indicecombobox = comboBox1.SelectedIndex;
-                matriz = rejilla.comprobarfuturo(matriz, reglasenfermedades[indicecombobox]);
-                matriz = rejilla.actualizarCeldas(matriz);
-
+                this.rejilla.setEnfermedadceldas(matriz, listaenfermedades[comboBox_enfermedades.SelectedIndex]);
+                this.matriz = rejilla.contarinfectadosalrededor(matriz);
+                this.matriz = rejilla.evolucionar(matriz);
+                this.matriz = rejilla.actualizar(matriz);
                 for (int i = 0; i < numberrows; i++)
                 {
                     for (int j = 0; j < numbercolumns; j++)
                     {
-                        if (matriz[i, j].comprobarcelda() == 1)
+                        if (this.matriz[i, j].comprobarcelda() == 1)
                         {
                             dataGrid_infectados.Rows[i].Cells[j].Style.BackColor = Color.Green;
                         }
@@ -216,41 +206,34 @@ namespace Juego_dela_Vida
             }
         }
 
+        private void comboBox_enfermedades_DropDown(object sender, EventArgs e)
+        {
+            comboBox_enfermedades.Items.Clear();
+            for (int i = 0; i < listaenfermedades.Count; i++)
+            {
+                comboBox_enfermedades.Items.Add(listaenfermedades[i].getnombrenfermedad());
+            }
+
+        }
+
         private void button_guardar_Click(object sender, EventArgs e)
         {
             try
             {
                 SaveFileDialog ofd = new SaveFileDialog();
-                ofd.ShowDialog();
                 ofd.DefaultExt = "txt";
                 ofd.Filter = "Archivos txt(*.txt)|*.txt";
                 ofd.Title = "Guarda los datos";
+                ofd.ShowDialog();
+                
                 string nombre = ofd.FileName;
                 Fichero n = new Fichero(nombre);
-                n.guardarrejilla(nombre, matriz, numbercolumns, numberrows, nombreenfermedades[comboBox1.SelectedIndex], reglasenfermedades[comboBox1.SelectedIndex]);
+                n.guardar(matriz, listaenfermedades[comboBox_enfermedades.SelectedIndex]);
                 MessageBox.Show("Data succesfully stored");
             }
             catch (Exception g)
             {
                 MessageBox.Show(g.Message);
-            }
-        }
-        private void comboBox1_DropDown(object sender, EventArgs e)
-        {
-            try
-            {
-                for (int x = 1; x < contadorenfermedades; x++)
-                {
-                    Enfermedad nuevaenf = new Enfermedad();
-                    nuevaenf.creoenfermedad(nombrenuevaenfermedad, reglanuevaenfermedad);
-                    nombreenfermedades[x] = nuevaenf.damenombrenfermedad();
-                    reglasenfermedades[x] = nuevaenf.devolvernumeroinfectadosalrededor();
-                    comboBox1.Items.Add(nombreenfermedades[x]);
-                }
-            }
-            catch (Exception j)
-            {
-                MessageBox.Show(j.Message);
             }
         }
 
@@ -259,34 +242,28 @@ namespace Juego_dela_Vida
             try
             {
                 OpenFileDialog ofd = new OpenFileDialog();
-                ofd.Filter = "Archivos txt(*.txt)|*.txt";
+                ofd.DefaultExt = "txt";
+                ofd.Filter = "Text|*.txt";
+                ofd.Title = "Abrir archivos";
                 ofd.ShowDialog();
+                
                 string nombre = ofd.FileName;
-
                 Fichero n = new Fichero(nombre);
-                matriz = n.abrirfichero(nombre);
-                this.matriz = matriz;
-                textBox_columnas.Text = Convert.ToString(n.abrircolumnas(nombre));
-                textBox_filas.Text = Convert.ToString(n.abrirfilas(nombre));
-                if (string.Compare(n.abrirnombre(nombre), "VIH") == 1)
-                {
+                Enfermedad nenf = new Enfermedad();
+                Tuple<Celda[,], int, int, Enfermedad> tuple = n.abrir();
+                this.matriz = tuple.Item1;
+                this.numberrows = tuple.Item2;
+                this.numbercolumns = tuple.Item3;
+                textBox_columnas.Text = Convert.ToString(numbercolumns);
+                textBox_filas.Text = Convert.ToString(numberrows);
+                listaenfermedades.Add(tuple.Item4);
+                comboBox_enfermedades.Items.Add(tuple.Item4.getnombrenfermedad());
+                comboBox_enfermedades.SelectedIndex = listaenfermedades.Count-1;
 
-                }
-                else
-                {
-                    nombreenfermedades[contadorenfermedades] = n.abrirnombre(nombre);
-                    reglasenfermedades[contadorenfermedades] = n.abrirregla(nombre);
-                    comboBox1.Items.Add(n.abrirnombre(nombre));
-                    comboBox1.SelectedIndex = comboBox1.Items.Count-1;
 
-                }
-                Rejilla r = new Rejilla();
-                this.rejilla = r;
-                tabla = r.creardatagrid(n.abrirfilas(nombre), n.abrircolumnas(nombre)); ;
-                this.tabla = tabla;
+                this.tabla = this.rejilla.creardatagrid(numberrows, numbercolumns); ;
                 dataGrid_infectados.DataSource = tabla;
-                this.numberrows = n.abrirfilas(nombre);
-                this.numbercolumns = n.abrircolumnas(nombre);
+
                 for (int i = 0; i < numberrows; i++)
                 {
                     for (int j = 0; j < numbercolumns; j++)
@@ -301,11 +278,24 @@ namespace Juego_dela_Vida
                         }
                     }
                 }
+                
+
             }
-            catch (Exception k)
+            catch (Exception h)
             {
-                MessageBox.Show(k.Message);
+                MessageBox.Show(h.Message);
             }
         }
+
+        private void comboBox_enfermedades_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            label_yainfectada.Text = "Celdas infectadas alrededor para seguir infectado:" + Convert.ToString(listaenfermedades[comboBox_enfermedades.SelectedIndex].getreglayainfect());
+            label_noinfectada.Text = "Celdas infectadas alrededor para seguir infectado:" + Convert.ToString(listaenfermedades[comboBox_enfermedades.SelectedIndex].getreglanoinfect());
+        }
+
+
+
+
+
     }
 }
